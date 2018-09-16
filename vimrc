@@ -27,6 +27,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'gerw/vim-latex-suite'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Yggdroot/indentLine'
+Plug 'pseewald/vim-anyfold'
 call plug#end()
 
 "" ---------------- Sec-2: global setting -----------------
@@ -69,6 +70,7 @@ set completeopt=longest,menu,preview
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"	
 let g:ycm_global_ycm_extra_conf='~/includes/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf=0
 let g:ycm_collect_identifiers_from_tags_files=1
 let g:ycm_add_preview_to_completeopt = 0
 let g:ycm_autoclose_preview_window_after_insertion=1
@@ -166,6 +168,10 @@ nmap <leader>r :e#<CR>
 "" ------------------- Sec-4: lightline -------------------
 set laststatus=2
 let g:lightline = {'colorscheme': 'wombat',}
+
+"" -------------------- Sec-4: anyfold --------------------
+let anyfold_activate=1
+set foldlevel=0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" Ke Meng, 2018, Extension
