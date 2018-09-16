@@ -1,10 +1,3 @@
-let s:width = 80
-set tabstop=8                   "A tab is 8 spaces
-set expandtab                   "Always uses spaces instead of tabs
-set softtabstop=4               "Insert 4 spaces when tab is pressed
-set shiftwidth=4                "An indent is 4 spaces
-set shiftround                  "Round indent to nearest shiftwidth multiple
-
 nmap <silent> <f2> "=HaskellModuleHeader()<CR>:0put =<CR>
 function! HaskellModuleHeader(...)
     let name = 0 < a:0 ? a:1 : inputdialog("Module: ")
@@ -49,46 +42,4 @@ endfunc
 map <f8> :call ExecCpp() <cr>
 func! ExecCpp()
     exec "!  ./%<"
-endfunc
-
-
-
-inoremap ( ()<Esc>i
-inoremap [ []<Esc>i
-inoremap { {}<Esc>i
-inoremap ) <c-r>=ClosePair(')')<CR>
-inoremap ] <c-r>=ClosePair(']')<CR>
-inoremap } <c-r>=ClosePair('}')<CR>
-inoremap " <c-r>=QuoteDelim('"')<CR>
-inoremap ' <c-r>=QuoteDelim("'")<CR>
-
-function! ClosePair(char)
-    if getline('.')[col('.') - 1] == a:char
-        return "\<Right>"
-    else
-        return a:char
-    endif
-endfunc
-
-function! CloseBracket()
-    if match(getline(line('.') + 1), '\s*}') < 0
-        return "\<CR>}"
-    else
-        return "\<Esc>j0f}a"
-    endif
-endfunc
-
-function! QuoteDelim(char)
-    let line = getline('.')
-    let col = col('.')
-    if line[col - 2] == "\\"
-        "Inserting a quoted quotation mark into the string
-        return a:char
-    elseif line[col - 1] == a:char
-        "Escaping out of the string
-        return "\<Right>"
-    else
-        "Starting a string
-        return a:char.a:char."\<Esc>i"
-    endif
 endfunc
