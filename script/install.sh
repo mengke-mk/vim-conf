@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 usage(){
 cat <<END
@@ -15,6 +15,7 @@ END
 
 # install vim
 install_vim() {
+  set -x
   cp -rf ../vim ~/.vim
   cp -f ../vimrc ~/.vimrc
 }
@@ -29,7 +30,7 @@ set -e
 set -o pipefail
 
 # parse argv
-while test $# -ne; do
+while test $# -ne 0; do
   arg=$1; shift
   case ${arg} in
     -h|--help)        usage; exit ;;

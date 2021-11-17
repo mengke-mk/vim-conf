@@ -15,7 +15,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'preservim/tagbar'
 " Sec-3: Completion & Syntactic checker
-Plug 'Valloric/YouCompleteMe'
+Plug 'ycm-core/YouCompleteMe'
 Plug 'tenfyzhong/CompleteParameter.vim'
 Plug 'w0rp/ale'
 " Sec-4: Search & Jump
