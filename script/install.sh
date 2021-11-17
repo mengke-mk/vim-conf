@@ -63,12 +63,17 @@ install_languagetool() {
 }
 
 install_dep() {
-  sudo apt install snapd
-  sudo snap install ccls --classic
-  sudo apt-get install rust
-  cargo install ripgrep
-  #brew install ccls
-  #brew install ripgrep
+  get_os_version
+
+  if [[ "${PLATFORM}" == *"Ubuntu"* ]]; then
+    sudo apt install snapd
+    sudo snap install ccls --classic
+    sudo apt-get install rust
+    cargo install ripgrep
+  elif [[ "${PLATFORM}" == *"Darwin"* ]]; then
+    brew install ccls
+    brew install ripgrep
+  fi
 }
 
 
