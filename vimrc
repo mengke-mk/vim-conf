@@ -109,7 +109,7 @@ map <leader>m :TagbarToggle<CR>
 " usage: <c-space> trigger |<tab> to select |<cr> select first
 " the syntactic checker and symbol index in coc are weak
 " :Cocconfig
-" :CocInstall coc-pyright coc-json
+" :CocInstall coc-pyright coc-json coc-rust-analyzer coc-snippets
 set hidden
 set nobackup
 set nowritebackup
