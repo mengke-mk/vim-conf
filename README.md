@@ -13,7 +13,7 @@ Today's vim plugins are mostly designed to be "awesome" that work pretty well on
 - clang
 - [nerdtree](https://github.com/scrooloose/nerdtree)
 - [tagbar](https://github.com/preservim/tagbar)
-- [YouCompleteMe](https://github.com/ycm-core/YouCompleteMe)
+- [coc.nvim](https://github.com/neoclide/coc.nvim)
 - [ale](https://github.com/dense-analysis/ale)
 - [fzf](https://github.com/junegunn/fzf)
 - [ack](https://github.com/mileszs/ack.vim)
@@ -26,6 +26,3 @@ Today's vim plugins are mostly designed to be "awesome" that work pretty well on
 - [lightline](https://github.com/itchyny/lightline.vim)
 - [vim-latex-suite](https://github.com/gerw/vim-latex-suite)
 - [vim-LanguageTool](https://github.com/dpelle/vim-LanguageTool)
-
-
-

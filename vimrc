@@ -5,6 +5,17 @@ set encoding=utf-8
 "-------------------------------------------------------------------------------
 " Sec-0: Cheating sheet
 "-------------------------------------------------------------------------------
+" <leader>n nerdtree
+" <leader>m tagbar
+" <leader>b git-blame
+" <leader>f formatting
+" <leader>s easymotion
+" <tab> completion <cr> accept
+" [,] jump between errors
+" gs goto definition
+" K show documentation
+" Files, search filename
+" Rg, search pattern
 
 "-------------------------------------------------------------------------------
 " Sec-1: Plugins
@@ -17,23 +28,26 @@ Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'preservim/tagbar'
 " Sec-3: Completion & Syntactic checker
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'w0rp/ale'
+"Plug 'w0rp/ale'
 " Sec-4: Search & Jump
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim', { 'on': 'Files' }
-Plug 'mileszs/ack.vim'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'skywind3000/gutentags_plus'
+"Plug 'mileszs/ack.vim'
+"Plug 'ludovicchabant/vim-gutentags'
+"Plug 'skywind3000/gutentags_plus'
 " Sec-5: Convenience
 Plug 'jiangmiao/auto-pairs'
 Plug 'zivyangll/git-blame.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'Chiel92/vim-autoformat'
+Plug 'easymotion/vim-easymotion'
 " Sec-6: Fancy
 Plug 'Yggdroot/indentLine'
 Plug 'itchyny/lightline.vim'
 " Sec-7: Specific case
-Plug 'gerw/vim-latex-suite'
-Plug 'dpelle/vim-LanguageTool'
+"Plug 'gerw/vim-latex-suite'
+"Plug 'dpelle/vim-LanguageTool'
 call plug#end()
 
 "-------------------------------------------------------------------------------
@@ -45,9 +59,11 @@ set nu ru hls nowrap
 set noswf ww=<,>
 set et sta sw=2 ts=2 sts=2
 let mapleader = ","
+set backspace=indent,eol,start
 set noshowcmd
 set noshowmode
 set autochdir
+set cuc "cul
 filetype plugin indent on
 syntax on
 colo molokai
@@ -86,109 +102,123 @@ map <leader>m :TagbarToggle<CR>
 
 "-------------------------------------------------------------------------------
 " Sec-3: Completion & syntactic checker
-" Current solution: COC + ALE
+" Current solution: COC
 "-------------------------------------------------------------------------------
 " coc, conquer of completion, a code-completion engine for Vim
 " repo: https://github.com/neoclide/coc.nvim
 " usage: <c-space> trigger |<tab> to select |<cr> select first
+" the syntactic checker and symbol index in coc are weak
+" :Cocconfig
+" :CocInstall coc-pyright coc-json
 set hidden
 set nobackup
 set nowritebackup
-set cmdheight=2
-set updatetime=300
+set cmdheight=1
+set updatetime=100
 set shortmess+=c
 set signcolumn=yes
+let g:asyncrun_rootmarks = ['.compile_commands.json', '.ccls', '.git']
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <silent><expr> <c-@> coc#refresh()
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
 
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+" Use `[` and `]` to navigate diagnostics
+nmap <silent> [ <Plug>(coc-diagnostic-prev)
+nmap <silent> ] <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gs :vsp<CR><Plug>(coc-definition)
+nmap <silent> gt :vsp<CR><Plug>(coc-type-definition)
+nmap <silent> gi :vsp<CR><Plug>(coc-implementation)
+nmap <silent> gr :vsp<CR><Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
 "-------------------------------------------------------------------------------
+" (deprecated due to coc)
 " ALE, Asynchronous Lint Engine, an asynchronous syntax checker in vim
 " repo: https://github.com/dense-analysis/ale
 " usage: <leader>a open/close ale
-let g:ale_linters_explicit = 1
-    let g:ale_linters = {
-\   'cpp': ['cppcheck', 'clang','gcc'],
-\   'c': ['cppcheck', 'clang', 'gcc'],
-\   'python': ['pylint'],
-\   'bash': ['shellcheck'],
-\}
-let g:ale_completion_delay = 500
-let g:ale_echo_delay = 20
-let g:ale_lint_delay = 500
-let g:ale_echo_msg_format = '[%linter%] %code: %%s'
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
-let g:airline#extensions#ale#enabled = 1
-let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
-let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
-let g:ale_c_cppcheck_options = ''
-let g:ale_cpp_cppcheck_options = ''
-map ,a ::ALEToggle<CR>
-hi! clear SpellBad
-hi! clear SpellCap
-hi! clear SpellRare
+"let g:ale_linters_explicit = 1
+"    let g:ale_linters = {
+"\   'cpp': ['cppcheck', 'clang','gcc'],
+"\   'c': ['cppcheck', 'clang', 'gcc'],
+"\   'python': ['pylint'],
+"\   'bash': ['shellcheck'],
+"\}
+"let g:ale_completion_delay = 500
+"let g:ale_echo_delay = 20
+"let g:ale_lint_delay = 500
+"let g:ale_echo_msg_format = '[%linter%] %code: %%s'
+"let g:ale_lint_on_text_changed = 'normal'
+"let g:ale_lint_on_insert_leave = 1
+"let g:airline#extensions#ale#enabled = 1
+"let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
+"let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
+"let g:ale_c_cppcheck_options = ''
+"let g:ale_cpp_cppcheck_options = ''
+"map ,a ::ALEToggle<CR>
+"hi! clear SpellBad
+"hi! clear SpellCap
+"hi! clear SpellRare
 
 "-------------------------------------------------------------------------------
 " Sec-4: Search & Jump
-" Current solution: fzf+ack+gutentags
+" Current solution: fzf
 "-------------------------------------------------------------------------------
 " fzf, a command-line fuzzy finder
 " repo: https://github.com/junegunn/fzf
-" usage: <c-p> find file <c-f> fine word
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep --ignore node_modules --ignore dist'
-endif
-nmap <c-p> :Gcd<Space><bar><Space>Files<CR>
-nmap <c-f> :Gcd<Space><bar><Space>Ack!<Space>
+let g:fzf_layout = {'down': '~30%'}
 
 "-------------------------------------------------------------------------------
+" (deprecated due to fzf)
 " ack, a search frontend of ack, a replacement for grep
 " repo: https://github.com/mileszs/ack.vim
 " usage: Ack [options] {pattern} [{directories}]
 
-
 "-------------------------------------------------------------------------------
+" (deprecated due to coc)
 " gutentags, a Vim plugin that manages your tag files, jump to define
 " repo: https://github.com/ludovicchabant/vim-gutentags
 " usage: <leader>cg for Define | <leader>cs for Refer | <leader>cc for Invoke
-let $GTAGSLABEL = 'native-pygments'
-let $GTAGSCONF = '/usr/local/etc/gtags.conf'
-let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
-let g:gutentags_ctags_tagfile = '.tags'
-let g:gutentags_modules = []
-if executable('ctags')
-	let g:gutentags_modules += ['ctags']
-endif
-if executable('gtags-cscope') && executable('gtags')
-	let g:gutentags_modules += ['gtags_cscope']
-endif
-let s:vim_tags = expand('~/.cache/tags')
-let g:gutentags_cache_dir = s:vim_tags
-let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
-let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
-let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
-let g:gutentags_auto_add_gtags_cscope = 0
+" let $GTAGSLABEL = 'native-pygments'
+" let $GTAGSCONF = '/usr/local/etc/gtags.conf'
+" let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
+" let g:gutentags_ctags_tagfile = '.tags'
+" let g:gutentags_modules = []
+" if executable('ctags')
+" 	let g:gutentags_modules += ['ctags']
+" endif
+" if executable('gtags-cscope') && executable('gtags')
+" 	let g:gutentags_modules += ['gtags_cscope']
+" endif
+" let s:vim_tags = expand('~/.cache/tags')
+" let g:gutentags_cache_dir = s:vim_tags
+" let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+" let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+" let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+" let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
+" let g:gutentags_auto_add_gtags_cscope = 0
 
 "-------------------------------------------------------------------------------
 " Sec-5: Convenience
@@ -215,6 +245,18 @@ map <leader>b :<C-u>call gitblame#echo()<CR>
 " usage: :Git <git command>
 
 "-------------------------------------------------------------------------------
+" vim-autoformat, Provide easy code formatting in Vim
+" repo: https://github.com/vim-autoformat/vim-autoformat
+" usage: <leader>f (require .clang-format in your project root)
+noremap <leader>f :Autoformat<CR>
+
+"-------------------------------------------------------------------------------
+" easymotion, vim motions on speed
+" repo: https://github.com/easymotion/vim-easymotion
+" usage: <leader>s
+map <leader> <Plug>(easymotion-prefix)
+
+"-------------------------------------------------------------------------------
 " Sec-6: Fancy
 "-------------------------------------------------------------------------------
 " lightline, A light and configurable statusline/tabline plugin for Vim
@@ -231,25 +273,27 @@ let g:lightline = {'colorscheme': 'wombat',}
 "-------------------------------------------------------------------------------
 " Sec-7: Specific case
 "-------------------------------------------------------------------------------
+" (latex-only)
 " vim-latex-suite, a plugin provides a rich tool for editing latex files
 " repo: https://github.com/gerw/vim-latex-suite
 " usage: auto in .tex file
-set grepprg=grep\ -nH\ $*
-let g:Tex_TreatMacViewerAsUNIX = 1
-let g:tex_flavor='latex'
-let g:Tex_DefaultTargetFormat='pdf'
-let g:Tex_UseMakefile=0
-let g:Tex_ViewRule_pdf = 'open -a Preview'
-nmap <leader>r :e#<CR>
+" set grepprg=grep\ -nH\ $*
+" let g:Tex_TreatMacViewerAsUNIX = 1
+" let g:tex_flavor='latex'
+" let g:Tex_DefaultTargetFormat='pdf'
+" let g:Tex_UseMakefile=0
+" let g:Tex_ViewRule_pdf = 'open -a Preview'
+" nmap <leader>r :e#<CR>
 
 "-------------------------------------------------------------------------------
+" (latex-only)
 " LanguageTool, A vim plugin for the LanguageTool grammar checker
 " repo: https://github.com/dpelle/vim-LanguageTool
 " usage: <leader>g grammer check | <leader>] next error | <leader>[ previous error
-let g:languagetool_jar='~/runtime/LanguageTool/languagetool-commandline.jar'
-nmap <leader>g :LanguageToolCheck<CR>
-nmap <leader>] :lnext<CR>
-nmap <leader>[ :lprevious<CR>
+" let g:languagetool_jar='~/runtime/LanguageTool/languagetool-commandline.jar'
+" nmap <leader>g :LanguageToolCheck<CR>
+" nmap <leader>] :lnext<CR>
+" nmap <leader>[ :lprevious<CR>
 
 "-------------------------------------------------------------------------------
 " filetype-extension, customized mapping for differetn language

@@ -12,8 +12,8 @@ cat <<END
   Options:
     -h, --help                  Print help information
     -v, --vim                   Install vim
-    -y, --ycm                   Install YCM
     -l, --languagetool          Install languagetool
+    -d, --dep                   Install dependency
 END
 }
 
@@ -52,24 +52,8 @@ get_os_version() {
 # install vim
 install_vim() {
   set -x
-  cp -rf ../vim ~/.vim
+  cp -rf ../vim/* ~/.vim/
   cp -f ../vimrc ~/.vimrc
-}
-
-install_ycm() {
-  get_os_version
-
-  if [[ "${PLATFORM}" == *"Darwin"* ]]; then
-    brew install cmake python go nodejs
-    brew install llvm
-    cd ~/.vim/plugged/YouCompleteMe
-    python3 install.py --system-libclang  --all
-  elif [[ "${PLATFORM}" == *"Ubuntu"* ]]; then
-    apt install build-essential cmake vim-nox python3-dev
-    apt install mono-complete golang nodejs default-jdk npm
-    cd ~/.vim/plugged/YouCompleteMe
-    python3 install.py --all
-  fi
 }
 
 # install languagetool
@@ -78,12 +62,15 @@ install_languagetool() {
   wget https://internal1.languagetool.org/snapshots/LanguageTool-latest-snapshot.zip
 }
 
-install_ycm() {
-  apt -y install build-essential cmake vim-nox python3-dev
-  apt -y install mono-complete golang nodejs default-jdk npm
-  cd ~/.vim/bundle/YouCompleteMe
-  python3 install.py --all
+install_dep() {
+  sudo apt install snapd
+  sudo snap install ccls --classic
+  sudo apt-get install rust
+  cargo install ripgrep
+  #brew install ccls
+  #brew install ripgrep
 }
+
 
 set -e
 set -o pipefail
@@ -94,7 +81,7 @@ while test $# -ne 0; do
   case ${arg} in
     -h|--help)        usage; exit ;;
     -v|--vim)         install_vim; exit;; 
-    -y|--ycm)         install_ycm; exit;;
+    -d|--dep)         install_dep; exit;; 
     -l|--languagetool) install_languagetool; exit;;
     *)
       echo "unrecognized option or command '${arg}'"
