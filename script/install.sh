@@ -23,7 +23,14 @@ install_vim() {
 # install languagetool
 install_languagetool() {
 # download languagetool
-wget https://internal1.languagetool.org/snapshots/LanguageTool-latest-snapshot.zip
+  wget https://internal1.languagetool.org/snapshots/LanguageTool-latest-snapshot.zip
+}
+
+install_ycm() {
+  apt -y install build-essential cmake vim-nox python3-dev
+  apt -y install mono-complete golang nodejs default-jdk npm
+  cd ~/.vim/bundle/YouCompleteMe
+  python3 install.py --all
 }
 
 set -e

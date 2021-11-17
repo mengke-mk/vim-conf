@@ -1,5 +1,6 @@
 " The art of doing more with less
 " Ke Meng, 2021, vim 8.0+ required
+set encoding=utf-8
 
 "-------------------------------------------------------------------------------
 " Sec-0: Cheating sheet
@@ -15,8 +16,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'preservim/tagbar'
 " Sec-3: Completion & Syntactic checker
-Plug 'ycm-core/YouCompleteMe'
-Plug 'tenfyzhong/CompleteParameter.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'w0rp/ale'
 " Sec-4: Search & Jump
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -86,35 +86,41 @@ map <leader>m :TagbarToggle<CR>
 
 "-------------------------------------------------------------------------------
 " Sec-3: Completion & syntactic checker
-" Current solution: YCM + ALE
+" Current solution: COC + ALE
 "-------------------------------------------------------------------------------
-" YCM, YouCompleteMe, a code-completion engine for Vim
-" repo: https://github.com/ycm-core/YouCompleteMe
-" usage: auto
-set completeopt=longest,menu,preview
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"	
-let g:ycm_global_ycm_extra_conf='~/includes/.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf=0
-let g:ycm_collect_identifiers_from_tags_files=1
-let g:ycm_add_preview_to_completeopt = 0
-let g:ycm_autoclose_preview_window_after_insertion=1
-let g:ycm_cache_omnifunc=0
-let g:ycm_seed_identifiers_with_syntax=1
-let g:ycm_complete_in_comments = 1
-let g:ycm_complete_in_strings = 1
-let g:ycm_register_as_syntastic_checker = 0
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_max_num_candidates = 10
-let g:ycm_semantic_triggers =  {
-			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{3}'],
-			\ 'cs,lua,javascript': ['re!\w{3}'],
-			\ }
-set completeopt=menu,menuone
-nnoremap <leader>lo :lopen<CR>	"open locationlist
-nnoremap <leader>lc :lclose<CR>	"close locationlist
-inoremap <silent><expr> ( complete_parameter#pre_complete("()")
+" coc, conquer of completion, a code-completion engine for Vim
+" repo: https://github.com/neoclide/coc.nvim
+" usage: <c-space> trigger |<tab> to select |<cr> select first
+set hidden
+set nobackup
+set nowritebackup
+set cmdheight=2
+set updatetime=300
+set shortmess+=c
+set signcolumn=yes
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <c-@> coc#refresh()
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 "-------------------------------------------------------------------------------
 " ALE, Asynchronous Lint Engine, an asynchronous syntax checker in vim
 " repo: https://github.com/dense-analysis/ale
