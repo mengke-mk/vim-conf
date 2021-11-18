@@ -13,6 +13,7 @@ set encoding=utf-8
 " <tab> completion <cr> accept
 " [,] jump between errors
 " gs goto definition
+" ns surround (
 " K show documentation
 " Files, search filename
 " Rg, search pattern
@@ -42,6 +43,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'Chiel92/vim-autoformat'
 Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-surround'
 " Sec-6: Fancy
 Plug 'Yggdroot/indentLine'
 Plug 'itchyny/lightline.vim'
@@ -255,6 +257,12 @@ noremap <leader>f :Autoformat<CR>
 " repo: https://github.com/easymotion/vim-easymotion
 " usage: <leader>s
 map <leader> <Plug>(easymotion-prefix)
+
+"-------------------------------------------------------------------------------
+" vim-surround, Delete/change/add parentheses/quotes/XML-tags/much more with ease 
+" repo: https://github.com/tpope/vim-surround
+" usage: ysiw( to surround | cs([ to change | ds( to delete
+nmap ns ysiw)
 
 "-------------------------------------------------------------------------------
 " Sec-6: Fancy
