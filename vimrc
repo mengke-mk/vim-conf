@@ -17,6 +17,9 @@ set encoding=utf-8
 " K show documentation
 " Files, search filename
 " Rg, search pattern
+" Gstatus
+" Gdiff ~1
+" Gblame
 
 "-------------------------------------------------------------------------------
 " Sec-1: Plugins
