@@ -265,7 +265,7 @@ map <leader> <Plug>(easymotion-prefix)
 " vim-surround, Delete/change/add parentheses/quotes/XML-tags/much more with ease 
 " repo: https://github.com/tpope/vim-surround
 " usage: ysiw( to surround | cs([ to change | ds( to delete
-nmap ns ysiw)
+nmap ns ysiw
 
 "-------------------------------------------------------------------------------
 " Sec-6: Fancy
