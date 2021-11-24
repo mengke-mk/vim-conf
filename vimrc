@@ -14,6 +14,8 @@ set encoding=utf-8
 " [,] jump between errors
 " gs goto definition
 " ns surround (
+" gaip*| to align around |
+" :Dox to generate docxygen
 " K show documentation
 " Files, search filename
 " Rg, search pattern
@@ -47,6 +49,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'Chiel92/vim-autoformat'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-surround'
+Plug 'babaybus/DoxygenToolkit.vim'
+Plug 'junegunn/vim-easy-align'
 " Sec-6: Fancy
 Plug 'Yggdroot/indentLine'
 Plug 'itchyny/lightline.vim'
@@ -266,6 +270,25 @@ map <leader> <Plug>(easymotion-prefix)
 " repo: https://github.com/tpope/vim-surround
 " usage: ysiw( to surround | cs([ to change | ds( to delete
 nmap ns ysiw
+
+"-------------------------------------------------------------------------------
+" DoxygenToolkit.vim, Simplify Doxygen documentation in C, C++, Python.
+" repo: https://github.com/babaybus/DoxygenToolkit.vim
+" usage: :Dox 
+let g:DoxygenToolkit_briefTag_pre="@Synopsis  "
+let g:DoxygenToolkit_paramTag_pre="@Param "
+let g:DoxygenToolkit_returnTag="@Returns   "
+let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------"
+let g:DoxygenToolkit_blockFooter="--------------------------------------------------------------------------"
+let g:DoxygenToolkit_authorName="Ke Meng"
+let g:DoxygenToolkit_licenseTag="MIT"
+
+"-------------------------------------------------------------------------------
+" vim-easy-align, A Vim alignment plugin
+" repo: https://github.com/junegunn/vim-easy-align
+" usage: gaip*= gaip1 gaip*|
+nmap ga <Plug>(EasyAlign)
+xmap ga <Plug>(EasyAlign)
 
 "-------------------------------------------------------------------------------
 " Sec-6: Fancy
