@@ -10,12 +10,10 @@ set encoding=utf-8
 " <leader>b git-blame
 " <leader>f formatting
 " <leader>s easymotion
+" <leader>r surround 
 " <tab> completion <cr> accept
 " [,] jump between errors
 " gs goto definition
-" ns surround (
-" gaip*| to align around |
-" :Dox to generate docxygen
 " K show documentation
 " Files, search filename
 " Rg, search pattern
@@ -32,6 +30,7 @@ call plug#begin('~/.vim/plugged')
 " Sec-2: Navigation
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'preservim/tagbar'
+Plug 'tenfyzhong/tagbar-ext.vim'
 " Sec-3: Completion & Syntactic checker
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'w0rp/ale'
@@ -269,7 +268,7 @@ map <leader> <Plug>(easymotion-prefix)
 " vim-surround, Delete/change/add parentheses/quotes/XML-tags/much more with ease 
 " repo: https://github.com/tpope/vim-surround
 " usage: ysiw( to surround | cs([ to change | ds( to delete
-nmap ns ysiw
+nmap <leader>r ysiw
 
 "-------------------------------------------------------------------------------
 " DoxygenToolkit.vim, Simplify Doxygen documentation in C, C++, Python.
