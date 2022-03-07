@@ -37,7 +37,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Sec-4: Search & Jump
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim', { 'on': 'Files' }
-"Plug 'mileszs/ack.vim'
+Plug 'mileszs/ack.vim'
 "Plug 'ludovicchabant/vim-gutentags'
 "Plug 'skywind3000/gutentags_plus'
 " Sec-5: Convenience
@@ -101,6 +101,7 @@ imap <C-v> <Esc>"+p
 " open/close quickfix list
 map <leader>o :lopen<CR>
 map <leader>c :lclose<CR> 
+map <leader>t :tabnew<CR>
 
 "-------------------------------------------------------------------------------
 " Sec-2: Navigation
@@ -144,7 +145,6 @@ nmap <silent> ] <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gs :vsp<CR><Plug>(coc-definition)
-nmap <silent> gt :vsp<CR><Plug>(coc-type-definition)
 nmap <silent> gi :vsp<CR><Plug>(coc-implementation)
 nmap <silent> gr :vsp<CR><Plug>(coc-references)
 
