@@ -60,6 +60,8 @@ Plug 'tpope/vim-surround'
 Plug 'babaybus/DoxygenToolkit.vim'
 Plug 'junegunn/vim-easy-align'
 " Sec-6: Fancy
+Plug 'tpope/vim-abolish'
+Plug 'github/copilot.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'itchyny/lightline.vim'
 Plug 'sainnhe/sonokai'
