@@ -1,0 +1,124 @@
+" The art of doing more with less
+" Ke Meng, 2021, vim 8.0+ required
+set encoding=utf-8
+
+"-------------------------------------------------------------------------------
+" Sec-0: Cheating sheet
+"-------------------------------------------------------------------------------
+" <leader>n nerdtree
+" <leader>m tagbar
+" <leader>b git-blame
+" <leader>f formatting
+" <leader>s easymotion
+" <leader>r surround 
+" <tab> completion <cr> accept
+" [,] jump between errors
+" gs goto definition
+" K show documentation
+" Files, search filename
+" Rg, search pattern
+" Gstatus
+" Gdiff ~1
+" Gblame
+
+"-------------------------------------------------------------------------------
+" Sec-1: Plugins
+"-------------------------------------------------------------------------------
+" usage: PlugInstall, PlugUpdate, PlugClean, PlugUpgrade (vim-plug itself)
+filetype off
+call plug#begin('~/.vim/plugged')
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'preservim/tagbar'
+Plug 'jiangmiao/auto-pairs'
+Plug 'zivyangll/git-blame.vim'
+Plug 'Chiel92/vim-autoformat'
+Plug 'Yggdroot/indentLine'
+Plug 'itchyny/lightline.vim'
+Plug 'sainnhe/sonokai'
+call plug#end()
+
+"-------------------------------------------------------------------------------
+" Sec-1.1: Basic setting
+"-------------------------------------------------------------------------------
+" See http://www.guckes.net/vim/setup.html for explanation
+set nocp
+set nu ru hls nowrap
+set noswf ww=<,>
+set et sta sw=2 ts=2 sts=2
+let mapleader = ","
+set backspace=indent,eol,start
+set noshowcmd
+set noshowmode
+set autochdir
+set cuc "cul
+filetype plugin indent on
+syntax on
+colo sonokai
+set guifont=Monaco:h18
+if has('gui_runing')
+  set lines=35 columns=118
+endif 
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-bom,utf-8,latin1
+set termencoding=utf-8
+set tags=./.tags;,.tags
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+"-------------------------------------------------------------------------------
+" Sec-1.2: Basic mapping 
+"-------------------------------------------------------------------------------
+noremap<Tab> %
+nmap<F11> <c-w>=
+nmap<F12> <c-w>\|
+map <C-a> ggVG
+imap <C-a> <Esc>ggVG
+vmap <C-c> "+y
+imap <C-v> <Esc>"+p 
+" open/close quickfix list
+map <leader>o :lopen<CR>
+map <leader>c :lclose<CR> 
+map <leader>t :tabnew<CR>
+
+"-------------------------------------------------------------------------------
+" Sec-2: Navigation
+"-------------------------------------------------------------------------------
+map <leader>n :NERDTreeToggle<CR>
+map <leader>m :TagbarToggle<CR>
+
+"-------------------------------------------------------------------------------
+" Sec-5: Convenience
+"-------------------------------------------------------------------------------
+" auto-pair, a plugin to insert or delete brackets, parens, quotes in pair
+" repo: https://github.com/jiangmiao/auto-pairs
+" usage: auto
+let g:AutoPairs = {'[':']', '{':'}',"'":"'",'"':'"', '`':'`', '(':')'}
+inoremap <buffer><silent>) <C-R>=AutoPairsInsert(')')<CR>
+let g:AutoPairsShortcutToggle=''
+let g:AutoPairsShortcutFastWrap=''
+let g:AutoPairsShortcutJump=''
+let g:AutoPairsShortcutBackInsert=''
+
+"-------------------------------------------------------------------------------
+" git-blame, see git blame info in the status bar for the selected line.
+" repo: https://github.com/zivyangll/git-blame.vim
+" usage: <leader>b to blame
+map <leader>b :<C-u>call gitblame#echo()<CR>
+
+"-------------------------------------------------------------------------------
+" vim-autoformat, Provide easy code formatting in Vim
+" repo: https://github.com/vim-autoformat/vim-autoformat
+" usage: <leader>f (require .clang-format in your project root)
+noremap <leader>f :Autoformat<CR>
+
+"-------------------------------------------------------------------------------
+" Sec-6: Fancy
+"-------------------------------------------------------------------------------
+" lightline, A light and configurable statusline/tabline plugin for Vim
+" repo: https://github.com/itchyny/lightline.vim
+" usage: auto
+set laststatus=2
+let g:lightline = {'colorscheme': 'sonokai',}
+
