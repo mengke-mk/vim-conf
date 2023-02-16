@@ -67,6 +67,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'itchyny/lightline.vim'
 Plug 'sainnhe/sonokai'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'wfxr/minimap.vim'
 " Sec-7: Specific case
 "Plug 'gerw/vim-latex-suite'
 "Plug 'dpelle/vim-LanguageTool'
@@ -136,6 +137,7 @@ nmap <BS> :e#<CR>
 "map <leader>n :NERDTreeToggle<CR>
 lua require'nvim-tree'.setup {}
 map <leader>n :NvimTreeToggle<CR>
+map <leader>m :MinimapToggle<CR>	
 "let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
 "let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
 "let g:nvim_tree_highlight_opened_files = 1 "0 by default, will enable folder and file icon highlight for opened files/directories.
@@ -188,8 +190,8 @@ map <leader>n :NvimTreeToggle<CR>
 "set termguicolors
 "highlight NvimTreeFolderIcon guibg=blue
 
-"map <leader>m :TagbarToggle<CR>
-map <leader>m :Vista!!<CR>
+"map <leader>p :TagbarToggle<CR>
+map <leader>p :Vista!!<CR>
 let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 let g:vista_sidebar_width = 32
 let g:vista#renderer#enable_icon = 1
@@ -432,11 +434,11 @@ let g:lightline = {'colorscheme': 'onehalfdark',}
 
 "-------------------------------------------------------------------------------
 " filetype-extension, customized mapping for differetn language
-autocmd filetype c,cu,cpp source $HOME/.vim/lang/cplus.vim
-autocmd filetype python source $HOME/.vim/lang/python.vim
-autocmd filetype markdown source $HOME/.vim/lang/markdown.vim
-autocmd filetype lua source $HOME/.vim/lang/lua.vim
-autocmd filetype haskell source $HOME/.vim/lang/haskell.vim
-autocmd filetype tex source $HOME/.vim/lang/tex.vim
-autocmd filetype make set noexpandtab ts=4 sts=4 sw=4 "makefile tab"
-autocmd filetype make set noexpandtab "makefile tab != 4bk"
+"autocmd filetype c,cu,cpp source $HOME/.vim/lang/cplus.vim
+"autocmd filetype python source $HOME/.vim/lang/python.vim
+"autocmd filetype markdown source $HOME/.vim/lang/markdown.vim
+"autocmd filetype lua source $HOME/.vim/lang/lua.vim
+"autocmd filetype haskell source $HOME/.vim/lang/haskell.vim
+"autocmd filetype tex source $HOME/.vim/lang/tex.vim
+"autocmd filetype make set noexpandtab ts=4 sts=4 sw=4 "makefile tab"
+"autocmd filetype make set noexpandtab "makefile tab != 4bk"
