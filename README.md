@@ -14,12 +14,10 @@ To build this `nvim-dev` image:
 Then create a development environment to code, build, and run:
 
 ```
-set -x
-IMG=nvim-dev:latest
 docker run -itd --shm-size=16384m \
       -v <your codebase>:<codebase mapping e.g.:/mnt/project> \
       --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
-      $IMG \
+      nvim-dev:latest \
       /bin/bash
 ```
 
