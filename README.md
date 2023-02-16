@@ -1,6 +1,6 @@
 ## Introduction
 
-This is an out-of-the-box `nvim-dev` image (~1 min to build), contains almost everything you need like code completion (nvim-coc), syntax checker (coc, ccls), file navigation (nvim-tree), search(greprip, telescope), copilot, git-integration, and other fancy stuffs. The `init.nvim` is detailedly annotated and is easy-to-extend.
+This is an out-of-the-box `nvim-dev` image (~1 min to build), contains almost everything you need like LSP-client (coc), LSP-server (ccls), file navigation (nvim-tree), search (greprip, telescope), copilot, git-integration, and other fancy stuffs. The configuration is intuitive and clean, and the `init.nvim` is detailedly annotated and is easy-to-extend.
 
 
 ## Usage
