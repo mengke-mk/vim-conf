@@ -32,7 +32,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
+      { out,                            "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -53,25 +53,25 @@ vim.g.maplocalleader = "\\"
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 vim.opt.fileencodings = "utf-8,gbk,gb2312,gb18030,ucs-bom,cp936"
-vim.opt.termguicolors = true -- enable 24-bit RGB colors
-vim.opt.clipboard = "unnamedplus" -- copy to system clipboard
-vim.opt.hlsearch = true -- highlight search results
-vim.opt.number = true -- show line numbers
-vim.opt.relativenumber = false -- don't show relative line numbers
-vim.opt.whichwrap = "b,s,h,l,<,>,[,]" -- move to next line with the same indentation
-vim.opt.wrap = false -- don't wrap lines
-vim.opt.swapfile = false-- don't create swap files
+vim.opt.termguicolors = true           -- enable 24-bit RGB colors
+vim.opt.clipboard = "unnamedplus"      -- copy to system clipboard
+vim.opt.hlsearch = true                -- highlight search results
+vim.opt.number = true                  -- show line numbers
+vim.opt.relativenumber = true          -- don't show relative line numbers
+vim.opt.whichwrap = "b,s,h,l,<,>,[,]"  -- move to next line with the same indentation
+vim.opt.wrap = false                   -- don't wrap lines
+vim.opt.swapfile = false               -- don't create swap files
 vim.opt.backspace = "indent,eol,start" -- allow backspacing over everything in insert mode
-vim.opt.showcmd =  false -- show partial command in the last line
-vim.opt.showmode = false -- don't show mode in the last line
-vim.opt.autochdir = true -- change directory to the current file
-vim.opt.expandtab = true -- use spaces instead of tabs
-vim.opt.shiftwidth = 2 -- number of spaces to use for auto-indent
-vim.opt.tabstop = 2 -- number of spaces that a <Tab> in the file counts for
-vim.opt.softtabstop = 2 -- number of spaces that a <Tab> key in the file counts for
-vim.opt.cursorcolumn = true -- highlight the current column
-vim.opt.cursorline = false -- don't highlight the current line 
-vim.opt.smartindent = true -- auto-indent new lines
+vim.opt.showcmd = false                -- show partial command in the last line
+vim.opt.showmode = false               -- don't show mode in the last line
+vim.opt.autochdir = true               -- change directory to the current file
+vim.opt.expandtab = true               -- use spaces instead of tabs
+vim.opt.shiftwidth = 2                 -- number of spaces to use for auto-indent
+vim.opt.tabstop = 2                    -- number of spaces that a <Tab> in the file counts for
+vim.opt.softtabstop = 2                -- number of spaces that a <Tab> key in the file counts for
+vim.opt.cursorcolumn = true            -- highlight the current column
+vim.opt.cursorline = false             -- don't highlight the current line
+vim.opt.smartindent = true             -- auto-indent new lines
 
 
 -------------------------------------------------------------------------------
@@ -89,10 +89,10 @@ require("lazy").setup({
       enabled = true,
       priority = 1000,
       config = function()
-         vim.cmd([[colorscheme tokyonight]])
+        vim.cmd([[colorscheme tokyonight]])
       end,
     },
-    {"nvim-tree/nvim-web-devicons", lazy = true},
+    { "nvim-tree/nvim-web-devicons", lazy = true },
 
     -- Spec 1: Navigation
     {
@@ -104,26 +104,26 @@ require("lazy").setup({
         "nvim-tree/nvim-web-devicons",
       },
       keys = {
-        {"<leader>n", "<cmd>NvimTreeToggle<cr>", desc = "Toggle NvimTree"},
+        { "<leader>n", "<cmd>NvimTreeToggle<cr>", desc = "Toggle NvimTree" },
       },
       opts = {}
     },
     {
-      'nvim-telescope/telescope.nvim', 
+      'nvim-telescope/telescope.nvim',
       tag = '0.1.8',
       lazy = true,
       enabled = true,
       keys = {
-        {"<leader>f", "<cmd>lua require('telescope.builtin').live_grep()<cr>", desc = "Find files"},
+        { "<leader>f", "<cmd>lua require('telescope.builtin').live_grep()<cr>", desc = "Find files" },
       }
     },
     {
-      'akinsho/toggleterm.nvim', 
+      'akinsho/toggleterm.nvim',
       lazy = true,
       enabled = true,
-      version = "*", 
+      version = "*",
       keys = {
-        {"<leader>t", "<cmd>ToggleTerm direction=float<cr>", desc = "Toggle terminal"}
+        { "<leader>t", "<cmd>ToggleTerm direction=float<cr>", desc = "Toggle terminal" }
       },
       config = true
     },
@@ -140,7 +140,7 @@ require("lazy").setup({
       enabled = true,
       config = function()
         require("mason-lspconfig").setup {
-          ensure_installed =  {"clangd", "pyright", "lua_ls", "tsserver"},
+          ensure_installed = { "clangd", "pyright", "lua_ls", "tsserver" },
         }
       end,
     },
@@ -149,8 +149,8 @@ require("lazy").setup({
       lazy = false,
       enabled = true,
       keys = {
-        {"<leader>l", "<cmd>lua vim.lsp.buf.format()<cr>", desc = "Format code"},
-        {"K", "<cmd>lua vim.lsp.buf.hover()<cr>", desc = "Show documentation"},
+        { "<leader>l", "<cmd>lua vim.lsp.buf.format()<cr>", desc = "Format code" },
+        { "K",         "<cmd>lua vim.lsp.buf.hover()<cr>",  desc = "Show documentation" },
       },
       config = function()
         require("lspconfig").clangd.setup {}
@@ -160,7 +160,7 @@ require("lazy").setup({
       end,
     },
     {
-      "nvim-treesitter/nvim-treesitter", 
+      "nvim-treesitter/nvim-treesitter",
       lazy = false,
       enabled = true,
       build = ":TSUpdate"
@@ -170,7 +170,7 @@ require("lazy").setup({
       cmd = "Copilot",
       event = "InsertEnter",
       config = function()
-        require("copilot").setup{
+        require("copilot").setup {
           suggestion = { enabled = false },
           panel = { enabled = false },
         }
@@ -181,7 +181,7 @@ require("lazy").setup({
       event = { "InsertEnter", "LspAttach" },
       fix_pairs = true,
       config = function()
-        require("copilot_cmp").setup{}
+        require("copilot_cmp").setup {}
       end,
     },
     {
@@ -215,11 +215,11 @@ require("lazy").setup({
             ['<CR>'] = cmp.mapping.confirm({ select = true }),
           },
           sources = {
-            { name = "copilot", group_index = 1 },
+            { name = "copilot",  group_index = 1 },
             { name = 'nvim_lsp', keyword_length = 1, group_index = 1 },
-            { name = 'path', keyword_length = 1, group_index = 1 },
-            { name = 'vsnip', keyword_length = 1, group_index = 2 },
-            { name = 'buffer', keyword_length = 1, group_index = 2 },
+            { name = 'path',     keyword_length = 1, group_index = 1 },
+            { name = 'vsnip',    keyword_length = 1, group_index = 2 },
+            { name = 'buffer',   keyword_length = 1, group_index = 2 },
           },
           sorting = {
             priority_weight = 2,
@@ -237,7 +237,7 @@ require("lazy").setup({
             },
           },
         })
-        cmp.setup.cmdline({'/', '?'}, {
+        cmp.setup.cmdline({ '/', '?' }, {
           mapping = cmp.mapping.preset.cmdline(),
           sources = {
             { name = 'buffer' }
@@ -247,7 +247,7 @@ require("lazy").setup({
           mapping = cmp.mapping.preset.cmdline(),
           sources = cmp.config.sources({
             { name = 'path' }
-          },{
+          }, {
             { name = 'cmdline' }
           }),
           matching = { disallow_symbol_nonprefix_matching = false }
@@ -278,8 +278,8 @@ require("lazy").setup({
       enabled = true,
       keys = {
         { "<leader>c", "<cmd>Lspsaga incoming_calls<cr>", desc = "Who calls this function" },
-        { "<leader>a", "<cmd>Lspsaga code_action<cr>", desc = "Show code actions" },
-        { "<leader>m", "<cmd>Lspsaga outline<cr>", desc = "Toggle file outline" },
+        { "<leader>a", "<cmd>Lspsaga code_action<cr>",    desc = "Show code actions" },
+        { "<leader>m", "<cmd>Lspsaga outline<cr>",        desc = "Toggle file outline" },
       },
       config = function()
         require('lspsaga').setup({
@@ -320,17 +320,17 @@ require("lazy").setup({
         { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
       }
     },
-    { 
+    {
       -- because "sa" are closer than "ys"
-      'echasnovski/mini.surround', 
+      'echasnovski/mini.surround',
       version = '*',
       enabled = true,
       config = function()
         require('mini.surround').setup {
           highlight_duration = 500,
           mappings = {
-            add = 'sa', -- Add surrounding in Normal and Visual modes
-            delete = 'sd', -- Delete surrounding
+            add = 'sa',     -- Add surrounding in Normal and Visual modes
+            delete = 'sd',  -- Delete surrounding
             replace = 'sr', -- Replace surrounding
           },
           -- Place surroundings on each line in blockwise mode.
@@ -356,9 +356,9 @@ require("lazy").setup({
         -- add any opts here
       },
       keys = {
-        { "<leader>aa", function() require("avante.api").ask() end, desc = "avante: ask", mode = { "n", "v" } },
+        { "<leader>aa", function() require("avante.api").ask() end,     desc = "avante: ask",    mode = { "n", "v" } },
         { "<leader>ar", function() require("avante.api").refresh() end, desc = "avante: refresh" },
-        { "<leader>ae", function() require("avante.api").edit() end, desc = "avante: edit", mode = "v" },
+        { "<leader>ae", function() require("avante.api").edit() end,    desc = "avante: edit",   mode = "v" },
       },
       dependencies = {
         "stevearc/dressing.nvim",
@@ -403,7 +403,7 @@ require("lazy").setup({
             max_tokens = 4096,
           },
         }
-      end 
+      end
     },
     -- Spec 4: Misc
     {
@@ -421,23 +421,44 @@ require("lazy").setup({
       main = "ibl",
       config = function()
         local highlight = {
-            "RainbowViolet",
+          "RainbowRed",
+          "RainbowYellow",
+          "RainbowBlue",
+          "RainbowOrange",
+          "RainbowGreen",
+          "RainbowViolet",
+          "RainbowCyan",
         }
-        
+
         local hooks = require "ibl.hooks"
         -- create the highlight groups in the highlight setup hook, so they are reset
         -- every time the colorscheme changes
         hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-            vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+          vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+          vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+          vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+          vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+          vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+          vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+          vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
         end)
 
-        require("ibl").setup { 
-          scope = { 
-            enabled = true, 
-            show_start = false, 
-            highlight = highlight 
+        require("ibl").setup {
+          scope = {
+            enabled = true,
+            show_start = false,
+            highlight = highlight
           },
         }
+      end,
+    },
+    {
+      'echasnovski/mini.animate',
+      version = '*',
+      lazy = false,
+      enabled = true,
+      config = function()
+        require('mini.animate').setup {}
       end,
     },
   },
@@ -447,4 +468,3 @@ require("lazy").setup({
   -- do not automatically check for plugin updates
   checker = { enabled = false },
 })
-
